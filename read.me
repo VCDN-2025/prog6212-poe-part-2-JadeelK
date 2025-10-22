@@ -1,0 +1,316 @@
+# Contract Monthly Claim System (CMCS) - Part 2
+
+*Student:* Jadeel Kisten  
+*Student Number:* ST10339718  
+*Module:* PROG6212  
+
+
+## 📋 Table of Contents
+1. [Project Overview](#project-overview)
+2. [Changes from Part 1](#changes-from-part-1)
+3. [Features Implemented](#features-implemented)
+4. [Technologies Used](#technologies-used)
+5. [Installation Instructions](#installation-instructions)
+6. [How to Use](#how-to-use)
+7. [Unit Tests](#unit-tests)
+8. [Design Decisions](#design-decisions)
+
+
+
+## 🎯 Project Overview
+
+The Contract Monthly Claim System (CMCS) is a web-based application designed to streamline the submission, verification, and approval process for monthly claims submitted by Independent Contractor (IC) lecturers. This Part 2 implementation adds full functionality to the prototype created in Part 1.
+
+
+
+## 🔄 Changes from Part 1
+
+### Lecturer Feedback Implementation:
+
+#### 1. *Role-Based Authentication Explanation*
+- *Feedback:* "Explain the role-based authentication"
+- *Implementation:* Added comprehensive documentation explaining that the system uses role-based access through separate dashboards (Lecturer, Coordinator, Manager). In a production environment, this would be integrated with ASP.NET Core Identity for secure authentication.
+
+#### 2. *MVC Architecture Clarification*
+- *Feedback:* "Speak about the MVC buildup in future"
+- *Implementation:* The application now fully implements the MVC pattern:
+  - *Models:* Claim, Lecturer, SupportingDocument, Approval, User, Contract
+  - *Views:* Separate views for each role with intuitive interfaces
+  - *Controllers:* LecturerController, CoordinatorController, ManagerController, HomeController
+  - *Services:* InMemoryDataService (data management), FileEncryptionService (security)
+
+#### 3. *Claim Workflow Documentation*
+- *Feedback:* "Explain the workflow of the process of claim entry approval and submission"
+- *Implementation:* 
+  - *Step 1:* Lecturer submits claim with supporting documents
+  - *Step 2:* Programme Coordinator reviews and verifies claim
+  - *Step 3:* Academic Manager provides final approval
+  - Status updates are tracked transparently: Submitted → Verified → Approved/Rejected
+
+#### 4. *Database Relationships*
+- *Feedback:* "Explain the relationship in DB structure better"
+- *Implementation:* Moved from database to in-memory storage as per Part 2 requirements. Relationships maintained through:
+  - One Lecturer → Many Claims
+  - One Claim → Many Supporting Documents
+  - One Claim → Many Approvals
+  - One User → Many Approvals
+
+#### 5. *Complete GUI Implementation*
+- *Feedback:* "GUI is not explained well, only claim page is explained"
+- *Implementation:* Created comprehensive dashboards:
+  - *Lecturer Dashboard:* View all claims, submit new claims, track status
+  - *Coordinator Dashboard:* Review pending claims, verify or reject
+  - *Manager Dashboard:* Approve verified claims, view statistics
+  - *Home Page:* Role selection interface
+
+#### 6. *Improved Assumptions and Constraints*
+- *Feedback:* "Improve on listing the constraints and assumptions in list form"
+- *Implementation:* See Design Decisions section below
+
+#### 7. *Enhanced Project Plan*
+- *Feedback:* "Put it in a clear table with columns, Put actual due dates"
+- *Implementation:* Project completed following structured timeline with proper task breakdown
+
+
+
+## ✨ Features Implemented
+
+### 1. *Lecturer Features*
+- ✅ Submit monthly claims with hours worked
+- ✅ Upload supporting documents (PDF, DOCX, XLSX)
+- ✅ Auto-calculation of total amount from hourly rate
+- ✅ Track claim status in real-time
+- ✅ View claim history and details
+- ✅ Download submitted documents
+
+### 2. *Programme Coordinator Features*
+- ✅ View all pending claims
+- ✅ Review claim details and documents
+- ✅ Verify claims with comments
+- ✅ Reject claims with mandatory reasons
+- ✅ Download and review supporting documents
+
+### 3. *Academic Manager Features*
+- ✅ View verified claims awaiting approval
+- ✅ Final approval with comments
+- ✅ Reject claims with reasons
+- ✅ View comprehensive statistics
+- ✅ Access complete claim history
+
+### 4. *File Management*
+- ✅ Secure file upload (max 5MB)
+- ✅ File type validation (.pdf, .docx, .xlsx)
+- ✅ AES-256 encryption for stored files
+- ✅ Secure decryption for downloads
+- ✅ File metadata tracking
+
+### 5. *Status Tracking*
+- ✅ Visual status indicators (badges)
+- ✅ Progress tracker showing approval stages
+- ✅ Real-time status updates
+- ✅ Complete approval history
+
+### 6. *Error Handling*
+- ✅ Comprehensive error messages
+- ✅ Input validation on all forms
+- ✅ File upload error handling
+- ✅ Try-catch blocks throughout
+- ✅ User-friendly error displays
+
+
+
+## 🛠 Technologies Used
+
+- *Framework:* ASP.NET Core 9.0 MVC
+- *Language:* C# 13.0
+- *UI Framework:* Bootstrap 5.3
+- *Icons:* Bootstrap Icons
+- *Data Storage:* In-Memory Collections
+- *Encryption:* AES-256
+- *Testing:* xUnit
+- *Version Control:* Git & GitHub
+
+
+
+## 📥 Installation Instructions
+
+### Prerequisites:
+- Visual Studio 2022 (v17.8 or later)
+- .NET 9.0 SDK
+- Git
+
+
+## 🚀 How to Use
+
+### For Lecturers:
+1. Click "Enter as Lecturer" on home page
+2. Click "Submit New Claim"
+3. Select your name from dropdown
+4. Choose period month
+5. Enter hours worked
+6. Add optional notes
+7. Upload supporting documents
+8. Click "Submit Claim"
+9. View claim status on dashboard
+
+### For Programme Coordinators:
+1. Click "Enter as Coordinator" on home page
+2. View list of pending claims
+3. Click "Review" on any claim
+4. Review claim details and documents
+5. Download documents if needed
+6. Click "Verify Claim" or "Reject Claim"
+7. Add comments (mandatory for rejection)
+
+### For Academic Managers:
+1. Click "Enter as Manager" on home page
+2. View verified claims
+3. Click "Review" on any claim
+4. Review all details and approval history
+5. Click "Approve Claim" or "Reject Claim"
+6. View statistics in "All Claims" section
+
+---
+
+## 🧪 Unit Tests
+
+### Running Tests:
+bash
+cd CMCS.Tests
+dotnet test
+
+
+### Test Coverage:
+
+#### FileEncryptionService Tests (10 tests):
+- ✅ File encryption functionality
+- ✅ File decryption functionality
+- ✅ File type validation (PDF, DOCX, XLSX)
+- ✅ Invalid file type rejection
+- ✅ File size validation
+- ✅ Oversized file rejection
+
+#### InMemoryDataService Tests (9 tests):
+- ✅ Add claim functionality
+- ✅ Get claim by ID
+- ✅ Update claim status
+- ✅ Get claims by status
+- ✅ Add supporting document
+- ✅ Add approval record
+- ✅ Get all lecturers
+- ✅ Get pending claims count
+
+*Total Tests: 19 ✅*
+
+
+## 🎨 Design Decisions
+
+### Assumptions:
+- Each lecturer has one active contract
+- Hourly rates are stored in contracts
+- Claims are submitted monthly
+- Approval workflow is sequential (Coordinator → Manager)
+- File encryption uses fixed keys (would use Key Vault in production)
+- Demo system doesn't require authentication (would use Identity in production)
+
+### Constraints:
+- No database usage (Part 2 requirement)
+- Data stored in-memory only
+- No persistent storage between sessions
+- Maximum file size: 5MB
+- Accepted file formats: PDF, DOCX, XLSX
+- Single coordinator and manager for demo
+- No password authentication
+
+### Architecture Decisions:
+
+#### 1. *In-Memory Storage*
+- Used Singleton pattern for data services
+- Ensures data persistence during application lifetime
+- Pre-seeded with sample data for testing
+
+#### 2. *File Encryption*
+- Implemented AES-256 encryption
+- Files stored encrypted in memory
+- Decrypted only on download
+- Meets security requirements without database
+
+#### 3. *MVC Pattern*
+- Clear separation of concerns
+- Models for data structure
+- Views for UI presentation
+- Controllers for business logic
+
+#### 4. *Error Handling Strategy*
+- Try-catch blocks in all controller actions
+- User-friendly error messages
+- Validation at multiple levels
+- Graceful degradation
+
+
+
+## 📊 Project Structure
+
+
+CMCS/
+├── Controllers/
+│   ├── HomeController.cs
+│   ├── LecturerController.cs
+│   ├── CoordinatorController.cs
+│   └── ManagerController.cs
+├── Models/
+│   ├── Claim.cs
+│   ├── Lecturer.cs
+│   ├── SupportingDocument.cs
+│   ├── Approval.cs
+│   ├── User.cs
+│   └── Contract.cs
+├── Services/
+│   ├── InMemoryDataService.cs
+│   └── FileEncryptionService.cs
+├── Views/
+│   ├── Home/
+│   ├── Lecturer/
+│   ├── Coordinator/
+│   ├── Manager/
+│   └── Shared/
+├── wwwroot/
+└── Program.cs
+
+CMCS.Tests/
+└── Services/
+    ├── FileEncryptionServiceTests.cs
+    └── InMemoryDataServiceTests.cs
+
+
+
+
+## 📝 Future Enhancements
+
+- Integrate ASP.NET Core Identity for authentication
+- Add SQL Server database for persistence
+- Implement email notifications
+- Add PDF report generation
+- Create admin panel for user management
+- Add audit logging
+- Implement claim editing functionality
+- Add bulk approval features
+
+
+
+## 👨‍💻 Author
+
+*Jadeel Kisten*  
+Student Number: ST10339718  
+Module: PROG6212 - Programming 2B  
+Institution: VCDN 
+Year: 2025
+
+
+
+## 🙏 Acknowledgments
+
+- Lecturer feedback from Part 1 guided improvements
+- Microsoft documentation for ASP.NET Core MVC
+- Bootstrap for responsive UI components
+- xUnit for testing framework
